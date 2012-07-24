@@ -73,16 +73,9 @@ module.exports = function(grunt) {
   grunt.registerHelper('phantomspec', function(changedFiles, asyncDone) {
     var params = {
           path : []
-        },
-        pushed = {},
-        iChanged = 0,
-        changedFile;
+        };
 
-    // generate SpecRunner.html
-    while (changedFile = changedFiles[iChanged++]) {
-      if (pushed[changedFile]) {
-        continue;
-      }
+    changedFiles.forEach(function(changedFile) {
       // spec modified
       if (changedFile.indexOf('test/spec') === 0) {
         params.path.push(changedFile);
@@ -93,7 +86,7 @@ module.exports = function(grunt) {
         params.path.push(changedFile.replace('dist/js', 'test/spec'));
         params.path.push(changedFile);
       }
-    }
+    });
     params.path = grunt.util._.uniq(params.path);
     grunt.file.write('test/SpecRunner.html', ejsTmpl(params));
 

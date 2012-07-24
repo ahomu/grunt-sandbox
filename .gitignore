@@ -7,3 +7,4 @@ src/sass/*
 test/spec/*
 test/spec_coffee/*
 node_modules/*
+test/SpecRunner.html
