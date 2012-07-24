@@ -1,0 +1,9 @@
+dist/css/*
+dist/js/*
+src/coffee/*
+src/stylus/*
+src/less/*
+src/sass/*
+test/spec/*
+test/spec_coffee/*
+node_modules/*
