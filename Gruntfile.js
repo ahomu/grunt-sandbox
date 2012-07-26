@@ -37,7 +37,7 @@ module.exports = function(grunt) {
     stylus: {
       app: {
         src : ['src/stylus/*.styl'],
-        dest: 'dist/css/main.css'
+        dest: 'dist/css/<%= pkg.name %>.css'
       }
     },
     watch: {
@@ -75,16 +75,20 @@ module.exports = function(grunt) {
           path : []
         };
 
-    changedFiles.forEach(function(changedFile) {
+    if (!changedFiles.length) {
+      return;
+    }
+
+    changedFiles.forEach(function(filename) {
       // spec modified
-      if (changedFile.indexOf('test/spec') === 0) {
-        params.path.push(changedFile);
-        params.path.push(changedFile.replace('test/spec', 'dist/js'));
+      if (filename.indexOf('test/spec') === 0) {
+        params.path.push(filename);
+        params.path.push(filename.replace('test/spec', 'dist/js'));
       }
       // dest modified
-      else if (changedFile.indexOf('dist/js') === 0) {
-        params.path.push(changedFile.replace('dist/js', 'test/spec'));
-        params.path.push(changedFile);
+      else if (filename.indexOf('dist/js') === 0) {
+        params.path.push(filename.replace('dist/js', 'test/spec'));
+        params.path.push(filename);
       }
     });
     params.path = grunt.util._.uniq(params.path);
@@ -114,14 +118,13 @@ module.exports = function(grunt) {
   });
 
   // coffee compile single file
-  grunt.registerTask('sutaba', 'hogehoge', function() {
+  grunt.registerTask('sutaba', function() {
     var done = this.async,
-        changedSrc= grunt.file.watchFiles.changed[0],
+        changedSrc= grunt.file.watchFiles.changed[0] || grunt.file.watchFiles.added[0],
         fromTo = grunt.config('sutaba').fromTo;
 
     Object.keys(fromTo).forEach(function(path) {
       if (changedSrc.indexOf(path) === 0) {
-        console.log(path);
         exec(['coffee', '-c', '-o', fromTo[path], changedSrc], function(err, out, code) {
           done();
         });
@@ -135,6 +138,5 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  // grunt.registerTask('default', 'lint qunit concat min');
   grunt.registerTask('default', 'concat min deploy');
 };
