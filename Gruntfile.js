@@ -9,12 +9,6 @@ module.exports = function(grunt) {
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
       '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;' +
       ' Licensed <%= _.pluck([pkg.license], "type").join(", ") %> */\n',
-    jst: {
-      main: {
-        src:  [''],
-        dest: ''
-      }
-    },
     concat: {
       dist: {
         src: ['dist/js/**/*.js'],
@@ -25,6 +19,18 @@ module.exports = function(grunt) {
       dist: {
         src: ['<config:concat.dist.dest>'],
         dest: '<%= grunt.config("concat").dist.dest.replace(/js$/, "min.js") %>'
+      }
+    },
+    jst: {
+      compile: {
+        options: {
+          templateSettings: {
+            // interpolate : /\{\{(.+?)\}\}/g
+          }
+        },
+        files: {
+          "dist/compiled/templates.js": ["src/tmpl/*.html"]
+        }
       }
     },
     sutaba: {
