@@ -5,16 +5,17 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <title>Jasmine Spec Runner</title>
   <link rel="stylesheet" type="text/css" href="lib/jasmine-1.2.0/jasmine.css">
-  <script type="text/javascript" src="lib/jquery.1.3.2.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine.js"></script>
   <script type="text/javascript" src="lib/jasmine-1.2.0/jasmine-html.js"></script>
-
-  <% for (var i=0; i < path.length; i++) { %>
-    <script type="text/javascript" src="../<%= path[i] %>"></script>
+  <script type="text/javascript" src="../node_modules/grunt-jasmine-task/tasks/jasmine/jasmine-helper.js"></script>
+  <% for (var i=0; i < distFiles.length; i++) { %>
+    <script type="text/javascript" src="../<%= distFiles[i] %>"></script>
   <% } %>
-
+  <% for (var i=0; i < testFiles.length; i++) { %>
+    <script type="text/javascript" src="../<%= testFiles[i] %>"></script>
+  <% } %>
   <script type="text/javascript">
-  /*
+  
     (function() {
       var jasmineEnv = jasmine.getEnv();
       jasmineEnv.updateInterval = 1000;
@@ -41,15 +42,9 @@
       }
 
     })();
-  */
+  
   </script>
-
 </head>
-
 <body>
-  <script type="text/javascript">
-    jasmine.getEnv().addReporter(new jasmine.TrivialReporter());
-    jasmine.getEnv().execute();
-  </script>
 </body>
 </html>
