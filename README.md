@@ -2,6 +2,14 @@
 
 My Gruntfile.js, and package collection.
 
++  requirejs ( minify & build )
++  jst ( compile underscore templates )
++  lint & coffeelint
++  jasmine with phantomjs headless test
++  lossless image optimization
++  compile coffee script files
++  compile stylus files
+
 #Installation
 
 If using grunt's version less than 0.4.0. You need install development version. Please input this command.
