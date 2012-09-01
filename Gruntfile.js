@@ -52,6 +52,9 @@ module.exports = function(grunt) {
         }
       }
     },
+    lint: {
+
+    },
     // Headless test with jasmine
     'build-runner': {
       part: {
@@ -92,6 +95,56 @@ module.exports = function(grunt) {
         dest: 'test/spec'
       }
     },
+    coffeelint: {
+      dist: {
+        files: ['<config:coffee.dist.src>'],
+        options: {
+          "no_tabs" : {
+            "level" : "error"
+          },
+          "no_trailing_whitespace" : {
+            "level" : "error"
+          },
+          "max_line_length" : {
+            "value": 80,
+            "level" : "error"
+          },
+          "camel_case_classes" : {
+            "level" : "error"
+          },
+          "indentation" : {
+            "value" : 2,
+            "level" : "error"
+          },
+          "no_implicit_braces" : {
+            "level" : "ignore"
+          },
+          "no_trailing_semicolons" : {
+            "level" : "error"
+          },
+          "no_plusplus" : {
+            "level" : "ignore"
+          },
+          "no_throwing_strings" : {
+            "level" : "error"
+          },
+          "yclomatic_complexity" : {
+            "value" : 11,
+            "level" : "ignore"
+          },
+          "line_endings" : {
+            "value" : "unix",
+            "level" : "ignore"
+          },
+          "no_implicit_parens" : {
+            "level" : "ignore"
+          }
+        }
+      },
+      test: {
+        files: ['<config:coffee.test.src>']
+      }
+    },
     // Stylus
     stylus: {
       dist: {
@@ -109,11 +162,11 @@ module.exports = function(grunt) {
     },
     // Watch
     watch: {
-      coffeeDist: {
+      coffeedist: {
         files: ['<config:coffee.dist.src>'],
         tasks: 'coffee:dist'
       },
-      coffeeTest: {
+      coffeetest: {
         files: ['<config:coffee.test.src>'],
         tasks: 'coffee:test'
       },
@@ -141,6 +194,9 @@ module.exports = function(grunt) {
   // Load Local
   grunt.loadTasks('tasks');
 
-  // Default task.
+  // Default
   grunt.registerTask('default', ['noop']);
+
+  // Build
+  grunt.registerTask('build', ['coffeelint:dist', 'requirejs']);
 };
