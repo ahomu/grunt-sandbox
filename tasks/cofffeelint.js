@@ -4,11 +4,18 @@ module.exports = function(grunt) {
 
   /**
    * Task
+   * task name is 'clint', but helper & global config name are 'coffeelint'
    */
-  grunt.registerMultiTask('coffeelint', 'Lint your CoffeeScript!', function() {
-    var options = this.data.options,
+  grunt.registerMultiTask('clint', 'Lint your CoffeeScript!', function() {
+    var options = grunt.config('coffeelint'),
         changed = grunt.file.watchFiles.changed && grunt.file.watchFiles.changed[0];
 
+    // overwride target option
+    if (options[this.target]) {
+      options = options[this.target];
+    }
+
+    // if changed file exists
     if (changed) {
       if (grunt.file.expandFiles(this.data.files).indexOf(changed) !== -1) {
           src = [changed];

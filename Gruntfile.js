@@ -10,6 +10,18 @@ module.exports = function(grunt) {
       '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;' +
       ' Licensed <%= _.pluck([pkg.license], "type").join(", ") %> */\n',
     // Build JavaScript
+    jst: {
+      compile: {
+        files: {
+          'dist/tmpl/templates.js': ['src/tmpl/*.html']
+        },
+        options: {
+          templateSettings: {
+            // interpolate : /\{\{(.+?)\}\}/g
+          }
+        }
+      }
+    },
     requirejs: {
       js: {
         almond: true,
@@ -39,21 +51,6 @@ module.exports = function(grunt) {
         findNestedDependencies: true,
         out: 'dist/js/all-min.js'
       }
-    },
-    jst: {
-      compile: {
-        files: {
-          'dist/compiled/templates.js': ['src/tmpl/*.html']
-        },
-        options: {
-          templateSettings: {
-            // interpolate : /\{\{(.+?)\}\}/g
-          }
-        }
-      }
-    },
-    lint: {
-
     },
     // Headless test with jasmine
     'build-runner': {
@@ -95,51 +92,9 @@ module.exports = function(grunt) {
         dest: 'test/spec'
       }
     },
-    coffeelint: {
+    clint: {
       dist: {
-        files: ['<config:coffee.dist.src>'],
-        options: {
-          "no_tabs" : {
-            "level" : "error"
-          },
-          "no_trailing_whitespace" : {
-            "level" : "error"
-          },
-          "max_line_length" : {
-            "value": 80,
-            "level" : "error"
-          },
-          "camel_case_classes" : {
-            "level" : "error"
-          },
-          "indentation" : {
-            "value" : 2,
-            "level" : "error"
-          },
-          "no_implicit_braces" : {
-            "level" : "ignore"
-          },
-          "no_trailing_semicolons" : {
-            "level" : "error"
-          },
-          "no_plusplus" : {
-            "level" : "ignore"
-          },
-          "no_throwing_strings" : {
-            "level" : "error"
-          },
-          "yclomatic_complexity" : {
-            "value" : 11,
-            "level" : "ignore"
-          },
-          "line_endings" : {
-            "value" : "unix",
-            "level" : "ignore"
-          },
-          "no_implicit_parens" : {
-            "level" : "ignore"
-          }
-        }
+        files: ['<config:coffee.dist.src>']
       },
       test: {
         files: ['<config:coffee.test.src>']
@@ -164,7 +119,7 @@ module.exports = function(grunt) {
     watch: {
       coffeedist: {
         files: ['<config:coffee.dist.src>'],
-        tasks: 'coffee:dist'
+        tasks: 'clint:dist coffee:dist'
       },
       coffeetest: {
         files: ['<config:coffee.test.src>'],
@@ -177,6 +132,66 @@ module.exports = function(grunt) {
       stylus: {
         files: ['<config:stylus.dist.watch>'],
         tasks: 'stylus'
+      }
+    },
+    // Config
+    lint: {
+      options: {
+        curly: true,
+        eqeqeq: true,
+        immed: true,
+        latedef: true,
+        newcap: true,
+        noarg: true,
+        sub: true,
+        undef: true,
+        eqnull: true,
+        browser: true
+      },
+      globals: {
+        jQuery: true
+      }
+    },
+    coffeelint: {
+      'no_tabs' : {
+        'level' : 'error'
+      },
+      'no_trailing_whitespace' : {
+        'level' : 'error'
+      },
+      'max_line_length' : {
+        'value': 80,
+        'level' : 'error'
+      },
+      'camel_case_classes' : {
+        'level' : 'error'
+      },
+      'indentation' : {
+        'value' : 2,
+        'level' : 'error'
+      },
+      'no_implicit_braces' : {
+        'level' : 'ignore'
+      },
+      'no_trailing_semicolons' : {
+        'level' : 'error'
+      },
+      'no_plusplus' : {
+        'level' : 'ignore'
+      },
+      'no_throwing_strings' : {
+        'level' : 'error'
+      },
+      'yclomatic_complexity' : {
+        'value' : 11,
+        'level' : 'ignore'
+      },
+      'line_endings' : {
+        'value' : 'unix',
+        'level' : 'ignore'
+      },
+      'no_implicit_parens' : {
+        'level' : 'ignore'
       }
     }
   });
@@ -198,5 +213,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['noop']);
 
   // Build
-  grunt.registerTask('build', ['coffeelint:dist', 'requirejs']);
+  grunt.registerTask('build', ['clint:dist', 'requirejs']);
 };
