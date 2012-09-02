@@ -1,14 +1,14 @@
 {
   "name": "grunt-sandbox",
   "description": "My Gruntfile.js template and sandbox.",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "git",
   "license": "MIT",
   "author": "ahomu",
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "preinstall": "npm install -g git://github.com/cowboy/grunt.git#devel"
+    "gruntdevel": "npm install -g git://github.com/cowboy/grunt.git#devel"
   },
   "repository": {
     "type": "git",
@@ -18,15 +18,16 @@
     "node": "~0.8.2"
   },
   "dependencies": {
-  },
-  "devDependencies": {
-    "ejs": "~0.7.2",
-    "growl": "~1.5.1",
-    "exec": "~0.0.1",
     "grunt-contrib": "~0.1.1",
-    "grunt-stylus": "git://github.com/ahomu/grunt-stylus.git"
+    "grunt-stylus": "git://github.com/ahomu/grunt-stylus.git",
+    "grunt-coffee": "git://github.com/ahomu/grunt-coffee.git",
+    "grunt-img": "~0.1.4",
+    "grunt-requirejs": "git://github.com/ahomu/grunt-requirejs.git#fix_almond",
+    "grunt-jasmine-task": "~0.2.2",
+    "ejs": "~0.8.2",
+    "coffeelint": "~0.4.0",
+    "exec": "0.0.4"
   },
-  "optionalDependencies": {
-
-  }
+  "devDependencies": {},
+  "optionalDependencies": {}
 }

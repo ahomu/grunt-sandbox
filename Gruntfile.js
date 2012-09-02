@@ -9,140 +9,222 @@ module.exports = function(grunt) {
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
       '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;' +
       ' Licensed <%= _.pluck([pkg.license], "type").join(", ") %> */\n',
-    concat: {
+    // Document
+    yuidoc: {
       dist: {
-        src: ['dist/js/**/*.js'],
-        dest: 'dist/js/<%= pkg.name %>.js'
+        'name': 'Project Name',
+        'description': 'Project Description',
+        'version': '0.0.2',
+        'url': 'http://projecturl.com/',
+        options: {
+          paths: 'src/coffee',
+          // paths: 'dest/js',
+          outdir: 'docs',
+          syntaxtype: 'coffee',
+          extension: '.coffee'
+        }
       }
     },
-    min: {
-      dist: {
-        src: ['<config:concat.dist.dest>'],
-        dest: '<%= grunt.config("concat").dist.dest.replace(/js$/, "min.js") %>'
-      }
-    },
+    // Build JavaScript
     jst: {
       compile: {
+        files: {
+          'dist/tmpl/templates.js': ['src/tmpl/*.html']
+        },
         options: {
           templateSettings: {
             // interpolate : /\{\{(.+?)\}\}/g
           }
-        },
-        files: {
-          "dist/compiled/templates.js": ["src/tmpl/*.html"]
         }
       }
     },
-    sutaba: {
-      fromTo: {
-        'src/coffee'      : 'dist/js',
-        'test/spec_coffee': 'test/spec'
-      },
-      watch: ['src/coffee/**/*.coffee', 'test/spec_coffee/**/*.coffee']
-    },
-    stylus: {
-      app: {
-        src : ['src/stylus/*.styl'],
-        dest: 'dist/css/<%= pkg.name %>.css'
+    requirejs: {
+      dist: {
+        almond: true,
+        // replaceRequireScript: [{
+        //   files: ['index.html'],
+        //   module: 'main',
+        //   modulePath: 'main-all'
+        // }],
+        // modules: [
+        //   {name: 'main'},
+        //   {name: 'sub'}
+        // ],
+        // dir: 'almond',
+        // appDir: 'dist',
+        baseUrl: 'dist/js',
+        include: ['main', 'sub'],
+        paths: {
+            // underscore: '../vendor/underscore',
+            // jquery    : '../vendor/jquery',
+            // backbone  : '../vendor/backbone'
+        },
+        pragmas: {
+            doExclude: true
+        },
+        skipModuleInsertion: false,
+        optimizeAllPluginResources: true,
+        findNestedDependencies: true,
+        out: 'dist/js/all-min.js'
       }
     },
-    watch: {
-      sutaba: {
-        files: '<config:sutaba.watch>',
-        tasks: 'sutaba'
+    // Headless test with jasmine
+    'build-runner': {
+      part: {
+        pairing: {
+          'dist/js' : 'test/spec'
+        },
+        watch: ['dist/js/**/*.js', 'test/spec/**/*.js']
+      }
+    },
+    jasmine: {
+      part: {
+        src: ['test/SpecRunner.html'],
+        errorReporting: true
       },
-      autospec: {
-        files: ['dist/js/**/*.js', 'test/spec/**/*.js'],
-        tasks: 'autospec'
+      all: {
+        src: ['test/AllRunner.html'],
+        errorReporting: true
+      }
+    },
+    // Lossless image optimaization
+    img: {
+      dist: {
+        src: ['src/img/**/*.png', 'src/img/**/*.jpg', 'src/img/**/*.jpeg'],
+        dest: 'dist/img'
+      }
+    },
+    // CoffeeScript
+    coffee: {
+      dist: {
+        src: ['src/coffee/**/*.coffee'],
+        dest: 'dist/js'
+      },
+      test: {
+        src: ['test/spec/coffee/**/*.coffee'],
+        dest: 'test/spec'
+      }
+    },
+    clint: {
+      dist: {
+        files: ['<config:coffee.dist.src>']
+      },
+      test: {
+        files: ['<config:coffee.test.src>']
+      }
+    },
+    // Stylus
+    stylus: {
+      dist: {
+        files: {
+          'dist/css/test.css' : 'src/stylus/test.styl'
+        },
+        options: {
+          'include css': true,
+          compress: true,
+          urlfunc: 'embedurl',
+          paths: ['src/stylus']
+        },
+        watch: ['src/stylus/**/*.styl']
+      }
+    },
+    // Watch
+    watch: {
+      coffeedist: {
+        files: ['<config:coffee.dist.src>'],
+        tasks: 'clint:dist coffee:dist'
+      },
+      coffeetest: {
+        files: ['<config:coffee.test.src>'],
+        tasks: 'coffee:test'
+      },
+      jasmine: {
+        files: ['<config:build-runner.part.watch>'],
+        tasks: ['build-runner:part', 'jasmine:part']
       },
       stylus: {
-        files: ['<config:stylus.app.src>'],
+        files: ['<config:stylus.dist.watch>'],
         tasks: 'stylus'
+      }
+    },
+    // Config
+    lint: {
+      options: {
+        curly: true,
+        eqeqeq: true,
+        immed: true,
+        latedef: true,
+        newcap: true,
+        noarg: true,
+        sub: true,
+        undef: true,
+        eqnull: true,
+        browser: true
+      },
+      globals: {
+        jQuery: true
+      }
+    },
+    coffeelint: {
+      'no_tabs' : {
+        'level' : 'error'
+      },
+      'no_trailing_whitespace' : {
+        'level' : 'error'
+      },
+      'max_line_length' : {
+        'value': 80,
+        'level' : 'error'
+      },
+      'camel_case_classes' : {
+        'level' : 'error'
+      },
+      'indentation' : {
+        'value' : 2,
+        'level' : 'error'
+      },
+      'no_implicit_braces' : {
+        'level' : 'ignore'
+      },
+      'no_trailing_semicolons' : {
+        'level' : 'error'
+      },
+      'no_plusplus' : {
+        'level' : 'ignore'
+      },
+      'no_throwing_strings' : {
+        'level' : 'error'
+      },
+      'yclomatic_complexity' : {
+        'value' : 11,
+        'level' : 'ignore'
+      },
+      'line_endings' : {
+        'value' : 'unix',
+        'level' : 'ignore'
+      },
+      'no_implicit_parens' : {
+        'level' : 'ignore'
       }
     }
   });
 
   // Load
   grunt.loadNpmTasks('grunt-contrib');
+  grunt.loadNpmTasks('grunt-img');
+  grunt.loadNpmTasks('grunt-jasmine-task');
 
-  // require
-  var ejsTmpl = require('ejs').compile(grunt.file.read('test/SpecRunner.ejs')),
-      growl   = require('growl'),
-      exec    = require('exec');
+  // Load ( overwrite grunt-contrib's tasks )
+  grunt.loadNpmTasks('grunt-stylus');
+  grunt.loadNpmTasks('grunt-coffee');
+  grunt.loadNpmTasks('grunt-requirejs');
 
-  /**
-   * Auto create SpecRunner.html and execute phantomjs.
-   *
-   * {Array}    changedFiles
-   * {Function} asyncDone
-   */
-  grunt.registerHelper('phantomspec', function(changedFiles, asyncDone) {
-    var params = {
-          path : []
-        };
+  // Load Local
+  grunt.loadTasks('tasks');
 
-    if (!changedFiles.length) {
-      return;
-    }
+  // Default
+  grunt.registerTask('default', ['noop']);
 
-    changedFiles.forEach(function(filename) {
-      // spec modified
-      if (filename.indexOf('test/spec') === 0) {
-        params.path.push(filename);
-        params.path.push(filename.replace('test/spec', 'dist/js'));
-      }
-      // dest modified
-      else if (filename.indexOf('dist/js') === 0) {
-        params.path.push(filename.replace('dist/js', 'test/spec'));
-        params.path.push(filename);
-      }
-    });
-    params.path = grunt.util._.uniq(params.path);
-    grunt.file.write('test/SpecRunner.html', ejsTmpl(params));
-
-    exec(['phantomjs', '--load-images=no', 'test/lib/run.jasmine.phantom.js', 'test/SpecRunner.html'], function(err, out, code) {
-      if (err) {
-        throw err;
-      }
-      console.log(out+'------------------------------------------------------');
-      var mess = out.replace(/\[1m/g, '')
-                    .replace(/\[0m/g, '')
-                    .replace(/\[32m/g, '')
-                    .replace(/\[31m/g, ''),
-          options = {
-            // ...some options...
-          }
-      ;
-      growl(mess, options);
-      asyncDone();
-    });
-  });
-
-  // autospec
-  grunt.registerTask('autospec', function() {
-    grunt.helper('phantomspec', grunt.file.watchFiles.changed, this.async());
-  });
-
-  // coffee compile single file
-  grunt.registerTask('sutaba', function() {
-    var done = this.async,
-        changedSrc= grunt.file.watchFiles.changed[0] || grunt.file.watchFiles.added[0],
-        fromTo = grunt.config('sutaba').fromTo;
-
-    Object.keys(fromTo).forEach(function(path) {
-      if (changedSrc.indexOf(path) === 0) {
-        exec(['coffee', '-c', '-o', fromTo[path], changedSrc], function(err, out, code) {
-          done();
-        });
-      }
-    });
-  });
-
-  // deploy?
-  grunt.registerTask('deploy', function() {
-
-  });
-
-  // Default task.
-  grunt.registerTask('default', 'concat min deploy');
+  // Build
+  grunt.registerTask('build', ['jst', 'clint:dist', 'requirejs']);
 };
