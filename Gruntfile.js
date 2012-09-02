@@ -74,9 +74,6 @@ module.exports = function(grunt) {
         pairing: {
           'dist/js' : 'test/spec'
         },
-        options: {
-          dummy: 'haha'
-        },
         watch: ['dist/js/**/*.js', 'test/spec/**/*.js']
       }
     },
