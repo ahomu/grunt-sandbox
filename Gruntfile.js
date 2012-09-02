@@ -9,6 +9,22 @@ module.exports = function(grunt) {
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
       '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author %>;' +
       ' Licensed <%= _.pluck([pkg.license], "type").join(", ") %> */\n',
+    // Document
+    yuidoc: {
+      dist: {
+        'name': 'Project Name',
+        'description': 'Project Description',
+        'version': '0.0.2',
+        'url': 'http://projecturl.com/',
+        options: {
+          paths: 'src/coffee',
+          // paths: 'dest/js',
+          outdir: 'docs',
+          syntaxtype: 'coffee',
+          extension: '.coffee'
+        }
+      }
+    },
     // Build JavaScript
     jst: {
       compile: {
@@ -50,19 +66,6 @@ module.exports = function(grunt) {
         optimizeAllPluginResources: true,
         findNestedDependencies: true,
         out: 'dist/js/all-min.js'
-      }
-    },
-    jsdoc: {
-      dist: {
-        target: 'dist/js',
-        options: {
-          directory: 'docs',
-          template: '/usr/local/Cellar/jsdoc-toolkit/2.3.2/libexec/jsdoc-toolkit/templates/jsdoc',
-          recurse: 3,
-          verbose: true,
-          encoding: 'UTF-8',
-          ext: 'js'
-        }
       }
     },
     // Headless test with jasmine
@@ -111,16 +114,6 @@ module.exports = function(grunt) {
       },
       test: {
         files: ['<config:coffee.test.src>']
-      }
-    },
-    coffeedoc: {
-      dist: {
-        target: 'src/coffee',
-        options: {
-          output: 'docs',
-          parser: 'requirejs',
-          renderer: 'html'
-        }
       }
     },
     // Stylus

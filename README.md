@@ -5,7 +5,7 @@ My Gruntfile.js, and package collection.
 +  requirejs ( minify & build )
 +  jst ( compile underscore templates )
 +  lint & coffeelint
-+  jsdoc-toolkit & coffeedoc
++  yuidoc ( with .coffee compatibility )
 +  jasmine with phantomjs headless test
 +  lossless image optimization
 +  compile coffee script files
@@ -22,18 +22,18 @@ This gruntfile buildset requires several libraries.
 +  phantomjs
 +  optipng
 +  jpeg
-+  jsdoc-toolkit
 
 Install by Homebrew.
 
-    % brew install phantomjs optipng jpeg jsdoc-toolkit
+    % brew install phantomjs optipng jpeg
 
 At last installing dependent npm packages. Install is very easy. Just use the 'link' command.
 
     % npm link
 
-#Dirs
+#Appendix: Dirs
 
++ docs ( output documents )
 + src ( precompile source files )
     + img
     + stylus
@@ -51,5 +51,4 @@ At last installing dependent npm packages. Install is very easy. Just use the 'l
     + spec
         + coffee
 + tasks ( original tasks )
-
 
