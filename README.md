@@ -1,4 +1,4 @@
-#Frontend task collection
+#Grunt task collection
 
 My Gruntfile.js, and package collection.
 

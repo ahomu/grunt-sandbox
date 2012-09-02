@@ -213,5 +213,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['noop']);
 
   // Build
-  grunt.registerTask('build', ['clint:dist', 'requirejs']);
+  grunt.registerTask('build', ['jst', 'clint:dist', 'requirejs']);
 };
