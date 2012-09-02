@@ -100,6 +100,16 @@ module.exports = function(grunt) {
         files: ['<config:coffee.test.src>']
       }
     },
+    coffeedoc: {
+      dist: {
+        target: 'src/coffee',
+        options: {
+          output: 'docs',
+          parser: 'requirejs',
+          renderer: 'html'
+        }
+      }
+    },
     // Stylus
     stylus: {
       dist: {

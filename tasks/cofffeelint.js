@@ -36,7 +36,7 @@ module.exports = function(grunt) {
     } else {
       // not watch
       if (!changed) {
-        grunt.fatal('Failed coffeelint and stop task');
+        grunt.fail.warn('Failed coffeelint and stop task');
         return false;
       } else {
         grunt.log.error('Failed coffeelint');
@@ -54,9 +54,9 @@ module.exports = function(grunt) {
     try {
       result = lint.lint(grunt.file.read(filepath), options);
       if (result.length) {
-        grunt.log.error('Error in ' + filepath + ':\n');
+        grunt.log.error('Error in ' + filepath + ':');
         result.forEach(function(row) {
-          grunt.log.error('L' + row.lineNumber + ': ' + row.message + ' (' + (row.value || '-') + ')\n');
+          grunt.log.error('L' + row.lineNumber + ': ' + row.message + ' (' + (row.value || '-') + ')');
         });
         return false;
       }
