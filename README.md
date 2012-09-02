@@ -1,10 +1,11 @@
-#Grunt task collection
+#Grunt task collection for Frontend Engineer
 
 My Gruntfile.js, and package collection.
 
 +  requirejs ( minify & build )
 +  jst ( compile underscore templates )
 +  lint & coffeelint
++  jsdoc-toolkit & coffeedoc
 +  jasmine with phantomjs headless test
 +  lossless image optimization
 +  compile coffee script files
@@ -12,7 +13,7 @@ My Gruntfile.js, and package collection.
 
 #Installation
 
-If using grunt's version less than 0.4.0. You need install development version. Please input this command.
+If you using grunt's version less than 0.4.0. You need to install development version.
 
     % npm run-script gruntdevel
 
@@ -21,10 +22,11 @@ This gruntfile buildset requires several libraries.
 +  phantomjs
 +  optipng
 +  jpeg
++  jsdoc-toolkit
 
 Install by Homebrew.
 
-    % brew install phantomjs optipng jpeg
+    % brew install phantomjs optipng jpeg jsdoc-toolkit
 
 At last installing dependent npm packages. Install is very easy. Just use the 'link' command.
 

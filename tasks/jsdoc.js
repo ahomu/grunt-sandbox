@@ -4,24 +4,25 @@ module.exports = function(grunt) {
   /**
    * Task
    */
-  grunt.registerMultiTask('coffeedoc', 'Generate source documents from CoffeeScript files.', function() {
+  grunt.registerMultiTask('jsdoc', 'Generate source documents from JavaScript files.', function() {
     var target  = this.data.target,
         options = this.data.options || {},
-        cmds    = ['coffeedoc'],
+        cmds    = ['jsdoc'],
         done    = this.async();
+
+    cmds.push(target);
 
     Object.keys(options).forEach(function(opt) {
       cmds.push('--' + opt + '=' + options[opt]);
     });
-
-    cmds.push(target);
 
     exec(cmds, function(err, out, code) {
       if (code === 0) {
         grunt.log.ok(cmds.join(' '));
         grunt.log.ok('document created at '+target);
       } else {
-        grunt.fail.warn('If you want to using coffeedoc task. Please global install (option with -g) coffeedoc pakage from npm.');
+        // grunt.fail.warn('If you want to using coffeedoc task. Please global install (option with -g) coffeedoc pakage from npm.');
+        grunt.fail.warn();
       }
       done();
     });

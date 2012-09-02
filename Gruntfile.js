@@ -23,7 +23,7 @@ module.exports = function(grunt) {
       }
     },
     requirejs: {
-      js: {
+      dist: {
         almond: true,
         // replaceRequireScript: [{
         //   files: ['index.html'],
@@ -50,6 +50,19 @@ module.exports = function(grunt) {
         optimizeAllPluginResources: true,
         findNestedDependencies: true,
         out: 'dist/js/all-min.js'
+      }
+    },
+    jsdoc: {
+      dist: {
+        target: 'dist/js',
+        options: {
+          directory: 'docs',
+          template: '/usr/local/Cellar/jsdoc-toolkit/2.3.2/libexec/jsdoc-toolkit/templates/jsdoc',
+          recurse: 3,
+          verbose: true,
+          encoding: 'UTF-8',
+          ext: 'js'
+        }
       }
     },
     // Headless test with jasmine

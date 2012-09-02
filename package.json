@@ -26,8 +26,7 @@
     "grunt-jasmine-task": "~0.2.2",
     "ejs": "~0.8.2",
     "coffeelint": "~0.4.0",
-    "exec": "0.0.4",
-    "jsdoc-toolkit": "0.0.2"
+    "exec": "0.0.4"
   },
   "devDependencies": {},
   "optionalDependencies": {}
