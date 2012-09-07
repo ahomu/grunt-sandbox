@@ -21,7 +21,7 @@
     "grunt-contrib": "~0.1.1",
     "grunt-stylus": "git://github.com/ahomu/grunt-stylus.git",
     "grunt-coffee": "git://github.com/ahomu/grunt-coffee.git",
-    "grunt-img": "~0.1.4",
+    "grunt-img": "git://github.com/ahomu/grunt-img.git",
     "grunt-requirejs": "git://github.com/ahomu/grunt-requirejs.git#fix_almond",
     "grunt-jasmine-task": "~0.2.2",
     "ejs": "~0.8.2",

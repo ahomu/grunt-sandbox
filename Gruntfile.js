@@ -206,6 +206,12 @@ module.exports = function(grunt) {
       'no_implicit_parens' : {
         'level' : 'ignore'
       }
+    },
+    optping: {
+      args: ['-o5']
+    },
+    jpegtran: {
+      rescan: './jpegrescan'
     }
   });
 
@@ -226,5 +232,5 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['noop']);
 
   // Build
-  grunt.registerTask('build', ['jst', 'clint:dist', 'requirejs']);
+  grunt.registerTask('build', ['jst', 'clint:dist', 'requirejs:dist']);
 };
