@@ -21,12 +21,12 @@ module.exports = (grunt) ->
           extension: ".coffee"
 
     # Build JavaScript
-    jst:
-      compile:
-        files:
-          "dist/tmpl/templates.js": ["src/tmpl/*.html"]
-        options:
-          templateSettings: {}
+    # jst:
+    #   compile:
+    #     files:
+    #       "dist/tmpl/templates.js": ["src/tmpl/*.html"]
+    #     options:
+    #       templateSettings: {}
 
     # interpolate : /\{\{(.+?)\}\}/g
     requirejs:
@@ -44,11 +44,12 @@ module.exports = (grunt) ->
         # dir: 'almond',
         # appDir: 'dist',
         baseUrl: "dist/js"
-        include: ["main", "sub"]
-        paths: {}
-        # underscore: '../vendor/underscore',
-        # jquery    : '../vendor/jquery',
-        # backbone  : '../vendor/backbone'
+        include: ["main"]
+        paths: {
+          lodash: 'lib/lodash.custom'
+          backbone: 'lib/backbone'
+          zepto: 'lib/zepto'
+        }
         pragmas:
           doExclude: true
         skipModuleInsertion: false
@@ -108,7 +109,7 @@ module.exports = (grunt) ->
     watch:
       coffeedist:
         files: ["<config:coffee.dist.src>"]
-        tasks: "clint:dist coffee:dist"
+        tasks: ['clint:dist', 'coffee:dist']
       coffeetest:
         files: ["<config:coffee.test.src>"]
         tasks: "coffee:test"

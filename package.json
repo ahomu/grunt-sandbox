@@ -8,7 +8,7 @@
   "main": "Gruntfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "gruntdevel": "npm install -g git://github.com/cowboy/grunt.git#7c1161ddc69a770f1f501af7e0f5af4d99ba3666"
+    "gruntdevel": "npm install -g git://github.com/cowboy/grunt.git#devel"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,6 @@
     "node": "~0.8.2"
   },
   "dependencies": {
-    "grunt-contrib": "~0.1.1",
     "grunt-stylus": "git://github.com/ahomu/grunt-stylus.git",
     "grunt-coffee": "git://github.com/ahomu/grunt-coffee.git",
     "grunt-img": "git://github.com/ahomu/grunt-img.git",
@@ -26,7 +25,8 @@
     "grunt-jasmine-task": "~0.2.2",
     "ejs": "~0.8.2",
     "coffeelint": "~0.4.0",
-    "exec": "0.0.4"
+    "exec": "0.0.4",
+    "grunt-contrib-yuidoc": "~0.1.0"
   },
   "devDependencies": {},
   "optionalDependencies": {}
