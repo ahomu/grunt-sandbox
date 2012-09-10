@@ -1,7 +1,7 @@
 {
   "name": "grunt-sandbox",
   "description": "My Gruntfile.js template and sandbox.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "git",
   "license": "MIT",
   "author": "ahomu",
@@ -18,15 +18,15 @@
     "node": "~0.8.2"
   },
   "dependencies": {
-    "grunt-contrib": "~0.1.1",
     "grunt-stylus": "git://github.com/ahomu/grunt-stylus.git",
     "grunt-coffee": "git://github.com/ahomu/grunt-coffee.git",
-    "grunt-img": "~0.1.4",
+    "grunt-img": "git://github.com/ahomu/grunt-img.git",
     "grunt-requirejs": "git://github.com/ahomu/grunt-requirejs.git#fix_almond",
     "grunt-jasmine-task": "~0.2.2",
     "ejs": "~0.8.2",
     "coffeelint": "~0.4.0",
-    "exec": "0.0.4"
+    "exec": "0.0.4",
+    "grunt-contrib-yuidoc": "~0.1.0"
   },
   "devDependencies": {},
   "optionalDependencies": {}

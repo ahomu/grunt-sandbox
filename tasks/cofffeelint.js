@@ -27,7 +27,7 @@ module.exports = function(grunt) {
     }
 
     src.forEach(function(filepath) {
-      grunt.helper('coffeelint', filepath, grunt.util._.clone(options));
+      coffeelint_helper(filepath, grunt.util._.clone(options));
     });
 
     if (!grunt.task.current.errorCount) {
@@ -48,7 +48,7 @@ module.exports = function(grunt) {
   /**
    * Helper
    */
-  grunt.registerHelper('coffeelint', function(filepath, options) {
+  coffeelint_helper = function(filepath, options) {
     var result;
     options = options || {};
     try {
@@ -65,5 +65,5 @@ module.exports = function(grunt) {
       grunt.log.error('Error in ' + filepath + ':\n' + e);
       return false;
     }
-  });
+  };
 };
