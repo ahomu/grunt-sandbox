@@ -2,8 +2,12 @@
 module.exports = (grunt) ->
   # Project configuration.
   grunt.initConfig
-    pkg: "<json:package.json>"
-    banner: "/*! <%= pkg.title || pkg.name %> - v<%= pkg.version %> - " + "<%= grunt.template.today(\"yyyy-mm-dd\") %>\n" + "<%= pkg.homepage ? \"* \" + pkg.homepage + \"\\n\" : \"\" %>" + "* Copyright (c) <%= grunt.template.today(\"yyyy\") %> <%= pkg.author %>;" + " Licensed <%= _.pluck([pkg.license], \"type\").join(\", \") %> */\n"
+    meta: grunt.file.readJSON('package.json')
+    banner: "/*! <%= meta.title || meta.name %> - v<%= meta.version %> - 
+             <%= grunt.template.today(\"yyyy-mm-dd\") %>\n
+             <%= meta.homepage ? \"* \" + meta.homepage + \"\\n\" : \"\" %>
+             * Copyright (c) <%= grunt.template.today(\"yyyy\") %> <%= meta.author %>;
+             Licensed <%= _.pluck([meta.license], \"type\").join(\", \") %> */\n"
 
     # Document
     yuidoc:
