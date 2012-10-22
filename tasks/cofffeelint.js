@@ -8,7 +8,7 @@ module.exports = function(grunt) {
    */
   grunt.registerMultiTask('clint', 'Lint your CoffeeScript!', function() {
     var options = grunt.config('coffeelint'),
-        changed = grunt.file.watchFiles.changed && grunt.file.watchFiles.changed[0];
+        changed = grunt.file.watchFiles && grunt.file.watchFiles.changed && grunt.file.watchFiles.changed[0];
 
     // overwride target option
     if (options[this.target]) {

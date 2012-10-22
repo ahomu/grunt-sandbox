@@ -9,6 +9,18 @@ module.exports = (grunt) ->
              * Copyright (c) <%= grunt.template.today(\"yyyy\") %> <%= meta.author %>;
              Licensed <%= _.pluck([meta.license], \"type\").join(\", \") %> */\n"
 
+    csslint:
+      dist:
+        src: ['dist/css/hoge.css']
+
+    dataUri:
+      hoge:
+        src: ['dist/css/raw/*.css']
+        dest: 'dist/css'
+        options:
+          target: ['dist/img/**/*.png']
+          fixDirLevel: true
+
     # Document
     yuidoc:
       dist:
@@ -35,6 +47,7 @@ module.exports = (grunt) ->
     # interpolate : /\{\{(.+?)\}\}/g
     requirejs:
       dist:
+        optimize: 'none'
         almond: true
         # replaceRequireScript: [{
         #   files: ['index.html'],
@@ -48,7 +61,7 @@ module.exports = (grunt) ->
         # dir: 'almond',
         # appDir: 'dist',
         baseUrl: "dist/js"
-        include: ["main"]
+        include: ["main", "hoge"]
         paths: {
           lodash: 'lib/lodash.custom'
           backbone: 'lib/backbone'
@@ -62,7 +75,7 @@ module.exports = (grunt) ->
         out: "dist/js/all-min.js"
 
     # Headless test with jasmine
-    "build-runner":
+    buildRunner:
       part:
         pairing:
           "dist/js": "test/spec"
@@ -85,17 +98,16 @@ module.exports = (grunt) ->
     # CoffeeScript
     coffee:
       dist:
-        src: ["src/coffee/**/*.coffee"]
-        dest: "dist/js"
+        files:
+          "dist/js/*.js": ["src/coffee/**/*.coffee"]
       test:
-        src: ["test/spec/coffee/**/*.coffee"]
-        dest: "test/spec"
+        files:
+          "test/spec/*.js": ["test/spec/coffee/**/*.coffee"]
     clint:
       dist:
-        files: ["<config:coffee.dist.src>"]
-
+        files: "<%= _.values(coffee.dist.files) %>"
       test:
-        files: ["<config:coffee.test.src>"]
+        files: "<%= _.values(coffee.test.files) %>"
 
     # Stylus
     stylus:
@@ -105,23 +117,23 @@ module.exports = (grunt) ->
         options:
           "include css": true
           compress: true
-          urlfunc: "embedurl"
-          paths: ["src/stylus"]
+          urlfunc: "emebedurl"
+          paths: ["dist/img"]
         watch: ["src/stylus/**/*.styl"]
 
     # Watch
     watch:
       coffeedist:
-        files: ["<config:coffee.dist.src>"]
+        files: ["<%= _.values(coffee.dist.files) %>"]
         tasks: ['clint:dist', 'coffee:dist']
       coffeetest:
-        files: ["<config:coffee.test.src>"]
+        files: ["<%= _.values(coffee.test.files) %>"]
         tasks: "coffee:test"
       jasmine:
-        files: ["<config:build-runner.part.watch>"]
-        tasks: ["build-runner:part", "jasmine:part"]
+        files: ["<%= buildRunner.part.watch %>"]
+        tasks: ["buildRunner:part", "jasmine:part"]
       stylus:
-        files: ["<config:stylus.dist.watch>"]
+        files: ["<%= stylus.dist.watch %>"]
         tasks: "stylus"
 
     # Config
@@ -168,26 +180,30 @@ module.exports = (grunt) ->
         level: "ignore"
       no_implicit_parens:
         level: "ignore"
-    optping:
+    optipng:
       args: ["-o5"]
     jpegtran:
       rescan: "./jpegrescan"
 
   # Load
-  grunt.loadNpmTasks "grunt-contrib"
   grunt.loadNpmTasks "grunt-img"
   grunt.loadNpmTasks "grunt-jasmine-task"
-  
-  # Load ( overwrite grunt-contrib's tasks )
-  grunt.loadNpmTasks "grunt-stylus"
-  grunt.loadNpmTasks "grunt-coffee"
+  grunt.loadNpmTasks "grunt-contrib-stylus"
+  grunt.loadNpmTasks "grunt-contrib-coffee"
+  grunt.loadNpmTasks "grunt-contrib-yuidoc"
+  grunt.loadNpmTasks "grunt-contrib-watch"
   grunt.loadNpmTasks "grunt-requirejs"
+  grunt.loadNpmTasks "grunt-data-uri"
+  grunt.loadNpmTasks "grunt-csso"
   
   # Load Local
   grunt.loadTasks "tasks"
   
   # Default
   grunt.registerTask "default", ["noop"]
+
+  # Browse
+  grunt.registerTask "browse", ["server", 'watch']
   
   # Build
   grunt.registerTask "build", ["jst", "clint:dist", "requirejs:dist"]

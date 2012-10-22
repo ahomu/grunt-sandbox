@@ -5,7 +5,7 @@ module.exports = function(grunt) {
       _       = util._,
       async   = util.async;
 
-  grunt.registerMultiTask('build-runner', 'Build SpecRunner.html for jasmine', function() {
+  grunt.registerMultiTask('buildRunner', 'Build SpecRunner.html for jasmine', function() {
     var pairing = this.data.pairing,
          options = this.data.options,
          done = this.async(),
