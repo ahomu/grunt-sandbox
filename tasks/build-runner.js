@@ -1,8 +1,9 @@
 module.exports = function(grunt) {
 
   var ejsTmpl = require('ejs').compile(grunt.file.read('test/SpecRunner.ejs')),
-        _     = grunt.util._,
-       async  = grunt.util.async;
+      util    = grunt.util || grunt.util,
+      _       = util._,
+      async   = util.async;
 
   grunt.registerMultiTask('build-runner', 'Build SpecRunner.html for jasmine', function() {
     var pairing = this.data.pairing,
